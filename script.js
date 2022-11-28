@@ -6,6 +6,24 @@ input.addEventListener('keyup', function(event) {
     }
 })
 
+let previousSearchHistory = localStorage.getItem('history')
+if (previousSearchHistory) {
+    previousSearchHistory = JSON.parse(previousSearchHistory)
+}else {
+    previousSearchHistory = []
+}
+
+for (let i = 0; i < previousSearchHistory.length; i++) {
+    let historyBtn = document.createElement('button')
+    let historyItem = previousSearchHistory[i]
+    historyBtn.textContent = historyItem
+    historyBtn.addEventListener('click', function(event) {
+        createWeatherDisplay(event.target.textContent)
+    })
+
+    document.body.appendChild(historyBtn)
+}
+
 let API_KEY = '0c459077329a9c1df0e90650659da6f0'
 
 function getGeoLocation(query, limit = 5) {
@@ -20,6 +38,11 @@ function addHistory(location) {
     let searchHistory = localStorage.getItem('history')
     if (searchHistory) {
         searchHistory = JSON.parse(searchHistory)
+        
+        if(searchHistory.includes(location)) {
+                return
+            }
+        
         searchHistory.push(location)
         localStorage.setItem('history', JSON.stringify(searchHistory))
     } else {
@@ -28,6 +51,7 @@ function addHistory(location) {
     }
 
 function createWeatherDisplay(location){
+    
     return getGeoLocation(location)
 .then(function(response) {
     return response.json()
@@ -50,6 +74,7 @@ let { lat, lon } = data[0]
         currentWeatherStatement.textContent = `${weatherData.weather[0].main}: currently ${weatherData.weather[0].description}`
         document.body.appendChild(weatherPic)
         document.body.appendChild(currentWeatherStatement)
+        addHistory(location)
     })
     
     .catch(error => {
