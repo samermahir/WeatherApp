@@ -6,22 +6,22 @@ input.addEventListener('keyup', function(event) {
     }
 })
 
-let API_KEY = 'e8713c748b04d201a89283e4f62cfbe5'
+let API_KEY = '0c459077329a9c1df0e90650659da6f0'
 
 function getGeoLocation(query, limit = 5) {
     return fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=${limit}&appid=${API_KEY}`)
 }
 
 function getWeather({arguments}) {
-    return fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${arguments.lat}&lon=${arguments.lon}&units=${units}&appid=${API_KEY}`)
+    return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${arguments.lat}&lon=${arguments.lon}&units=${imperial}&appid=${API_KEY}`)
 }
 function createWeatherDisplay(location){
-getGeoLocation(location)
+    return getGeoLocation(location)
 .then(function(response) {
-    return  response.json()
+    return response.json()
 })
 .then(data => {
-    // console.log(data)
+    console.log(data)
     // let { lat, lon } = data[0]
     getWeather({lat: data[0].lat, lon: data[0].lon})
     .then(weatherReponse => weatherReponse.json())
