@@ -12,8 +12,8 @@ function getGeoLocation(query, limit = 5) {
     return fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=${limit}&appid=${API_KEY}`)
 }
 
-function getWeather({arguments}) {
-    return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${arguments.lat}&lon=${arguments.lon}&units=${imperial}&appid=${API_KEY}`)
+function getCurrentWeather({lat, lon, units}) {
+    return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${units}&appid=${API_KEY}`)
 }
 function createWeatherDisplay(location){
     return getGeoLocation(location)
@@ -22,8 +22,8 @@ function createWeatherDisplay(location){
 })
 .then(data => {
     console.log(data)
-    // let { lat, lon } = data[0]
-    getWeather({lat: data[0].lat, lon: data[0].lon})
+    let { lat, lon } = data[0]
+    getCurrentWeather({ lat, lon })
     .then(weatherReponse => weatherReponse.json())
     .then(weatherData => {
         let weatherPic = document.createElement('img')
