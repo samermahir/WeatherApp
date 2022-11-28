@@ -15,14 +15,32 @@ function getGeoLocation(query, limit = 5) {
 function getCurrentWeather({lat, lon, units}) {
     return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${units}&appid=${API_KEY}`)
 }
+
+function addHistory(location) {
+    let searchHistory = localStorage.getItem('history')
+    if (searchHistory) {
+        searchHistory = JSON.parse(searchHistory)
+        searchHistory.push(location)
+        localStorage.setItem('history', JSON.stringify(searchHistory))
+    } else {
+        searchHistory = [location]}
+        localStorage.setItem('history', JSON.stringify(searchHistory))
+    }
+
 function createWeatherDisplay(location){
     return getGeoLocation(location)
 .then(function(response) {
     return response.json()
 })
 .then(data => {
+    if (data.length === 0) {
+        let erroEl = document.createElement('p')
+        erroEl.textContent = `${location} not found`
+        document.body.appendChild(erroEl)
+    } else {
+
     console.log(data)
-    let { lat, lon } = data[0]
+let { lat, lon } = data[0]
     getCurrentWeather({ lat, lon })
     .then(weatherReponse => weatherReponse.json())
     .then(weatherData => {
@@ -36,6 +54,7 @@ function createWeatherDisplay(location){
     
     .catch(error => {
         document.body.textcontent = error.message})
+    }
 })
 .catch(error => {
     document.body.textcontent = error.message
