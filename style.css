@@ -1,13 +1,19 @@
  body {
     margin: 0%;
-    background-color: black;
+    background-color: white;
  }
  
-.flex-container {
+p {
     display: flex;
     justify-content: center;
-    padding: 2%;
-    background-color: black
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border: 0;
 }
 
 div {
@@ -17,6 +23,7 @@ div {
     align-items: center;
     color: bisque;
     background-color: grey;
+    flex-direction: column;
    
     
 
