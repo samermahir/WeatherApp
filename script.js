@@ -1,8 +1,10 @@
 let input = document.querySelector('#input')
 
 input.addEventListener('keyup', function(event) {
+    console.log(event.target.value)
     if (event.key === 'Enter') {
         createWeatherDisplay(event.target.value)
+        console.log(event.key)
     }
 })
 
@@ -51,38 +53,42 @@ function addHistory(location) {
     }
 
 function createWeatherDisplay(location){
-    
-    return getGeoLocation(location)
-.then(function(response) {
-    return response.json()
-})
-.then(data => {
-    if (data.length === 0) {
-        let erroEl = document.createElement('p')
-        erroEl.textContent = `${location} not found`
-        document.body.appendChild(erroEl)
-    } else {
-
-    console.log(data)
-let { lat, lon } = data[0]
-    getCurrentWeather({ lat, lon })
-    .then(weatherReponse => weatherReponse.json())
-    .then(weatherData => {
-        let weatherPic = document.createElement('img')
-        weatherPic.src = `http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`
-        let currentWeatherStatement = document.createElement('p')
-        currentWeatherStatement.textContent = `${weatherData.weather[0].main}: currently ${weatherData.weather[0].description}`
-        document.body.appendChild(weatherPic)
-        document.body.appendChild(currentWeatherStatement)
-        addHistory(location)
+    console.log(location)
+    getGeoLocation(location)
+    .then(function(response) {
+        console.log(response)
+        return response.json()
     })
-    
-    .catch(error => {
-        document.body.textcontent = error.message})
-    }
-})
-.catch(error => {
-    document.body.textcontent = error.message
-})    
+    .then(data => {
+        console.log(data)
+        // let weather = data.weather[0]
+        if (data.length === 0) {
+            let erroEl = document.createElement('p')
+            erroEl.textContent = `${location} not found`
+            document.body.appendChild(erroEl)
+        } else {
 
+        console.log(data)
+        let { lat, lon } = data[0]
+        getCurrentWeather({ lat, lon })
+            .then(weatherReponse => weatherReponse.json())
+            .then(weatherData => {
+                console.log(weatherData)
+                let weatherPic = document.createElement('img')
+                weatherPic.src = `http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`
+                let currentWeatherStatement = document.createElement('p')
+                let container = document.createElement('div')
+                currentWeatherStatement.textContent = `${weatherData.weather[0].main}: currently ${weatherData.weather[0].description}`
+                container.appendChild(weatherPic)
+                container.appendChild(currentWeatherStatement)
+                document.body.appendChild(container)
+                addHistory(location)
+            })
+            .catch(error => {
+                document.body.textcontent = error.message})
+            }
+    })
+    .catch(error => {
+        document.body.textcontent = error.message
+    })    
 }
