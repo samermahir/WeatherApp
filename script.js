@@ -1,4 +1,6 @@
 let input = document.querySelector('#input')
+let output = document.querySelector('#container');
+
 
 input.addEventListener('keyup', function(event) {
     console.log(event.target.value)
