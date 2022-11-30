@@ -1,5 +1,4 @@
 let input = document.querySelector('#input')
-let output = document.querySelector('#container');
 
 
 input.addEventListener('keyup', function(event) {
@@ -31,7 +30,7 @@ for (let i = 0; i < previousSearchHistory.length; i++) {
 let API_KEY = '0c459077329a9c1df0e90650659da6f0'
 
 function getGeoLocation(query, limit = 5) {
-    return fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=${limit}&appid=${API_KEY}`)
+    return fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=${limit}&appid=${API_KEY}`)
 }
 
 function getCurrentWeather({lat, lon, units}) {
@@ -77,9 +76,10 @@ function createWeatherDisplay(location){
             .then(weatherData => {
                 console.log(weatherData)
                 let weatherPic = document.createElement('img')
-                weatherPic.src = `http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`
+                weatherPic.src = `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`
                 let currentWeatherStatement = document.createElement('p')
                 let container = document.createElement('div')
+                container.classList.add('current-weather-statement')
                 currentWeatherStatement.textContent = `${weatherData.weather[0].main}: currently ${weatherData.weather[0].description}`
                 container.appendChild(weatherPic)
                 container.appendChild(currentWeatherStatement)
