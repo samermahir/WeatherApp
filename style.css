@@ -2,8 +2,21 @@
     margin: 5%;
     background-color: white;
  }
+
+input {
+    width: 40%;
+    margin: 10px;
+    padding: 10px;
+}
+
 h1 {
     text-align: center;
+    font-size: 3em;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+    color: #444;
+    text-shadow: 1px 1px 1px black;
 }
  
 p {

@@ -86,11 +86,40 @@ function createWeatherDisplay(location){
                 document.body.appendChild(container)
                 addHistory(location)
             })
+
+    function futureWeather(lat, lon) {
+        let futureUrl= (`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=${units}&appid=${API_KEY}`)
+            fetch(futureUrl)
+            .then(function (response) {
+                return response.json(); 
+            })
+            .then(function(data) {
+                console.log(data);
+                for (i=0;i<5;i++) {
+                    console.log(data);
+                };
+                let weatherEl = document.createElement('div')
+                weatherEl.classList.add('future-weather')
+                let futureWeatherPic = document.createElement('img')
+                futureWeatherPic.src = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=${units}&appid=${API_KEY}`
+                weatherEl.textContent = `${day.weather[0].main}: ${index.weather[0].description}` 
+                futureContainer.appendChild(weatherEl)
+                futureContainer.appendChild(futureWeatherPic)
+                console.log(data)
+            })
+        
+            
+        
+            
             .catch(error => {
-                document.body.textcontent = error.message})
-            }
-    })
+                document.body.textcontent = error.message
+            })
+            
+        
+   
     .catch(error => {
         document.body.textcontent = error.message
-    })    
-}
+    })  
+}}}
+,
+    )}
