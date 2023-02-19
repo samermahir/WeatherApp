@@ -106,23 +106,37 @@ function createWeatherDisplay(location) {
     });
 
   function futureForecast(weatherData) {
+      let lat = weatherData.coord.lat;
+      let lon = weatherData.coord.lon;
+      let units = "metric";
 
-      let forecast = weatherData
-      console.log(forecast);
-      if (forecast) {
-        let futureWeatherStatement = document.createElement("p");
-
+      getFutureWeather({ lat, lon, units })
+      .then((forecastResponse) => forecastResponse.json())
+      .then((forecastData) => {
+        console.log(forecastData);
         let forecastEl = document.createElement("div");
         forecastEl.classList.add("futureWeatherStatement");
-        let futureWeatherPic = document.createElement("img");
-        futureWeatherPic.src = `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;
-        forecastEl.textContent = `${response.weather[0].main}: currently ${response.weather[0].description}`;
-
-        forecastEl.appendChild(futureWeatherPic);
-        forecastEl.appendChild(futureWeatherStatement);
+        
+        for (let i = 0; i < 5; i++) {
+          let forecast = forecastData.list[i * 8]; //8 forecast points per day
+          let forecastDate = new Date(forecast.dt * 1000); //convert Unix timestamp to date
+          let forecastDay = forecastDate.toLocaleDateString("en-US", {
+            weekday: "short",
+          });
+          let forecastTemp = Math.round(forecast.main.temp);
+          let forecastIcon = forecast.weather[0].icon;
+  
+          let forecastDayEl = document.createElement("p");
+          forecastDayEl.textContent = `${forecastDay}: ${forecastTemp}°C`;
+  
+          let forecastIconEl = document.createElement("img");
+          forecastIconEl.src = `https://openweathermap.org/img/wn/${forecastIcon}.png`;
+  
+          forecastEl.appendChild(forecastDayEl);
+          forecastEl.appendChild(forecastIconEl);
+        }
+  
         document.body.appendChild(forecastEl);
-        addHistory(forecast.date);
-      
-    }
+      });
   }
 }
