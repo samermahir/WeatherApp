@@ -95,8 +95,11 @@ function createWeatherDisplay(location) {
             let container = document.createElement("div");
             container.classList.add("currentweatherstatement");
             currentWeatherStatement.textContent = `${weatherData.weather[0].main}: currently ${weatherData.weather[0].description}`;
+            let windEl = document.createElement("p");
+            windEl.textContent = `Wind: ${weatherData.wind.speed} mph`;
             container.appendChild(weatherPic);
             container.appendChild(currentWeatherStatement);
+            container.appendChild(windEl);
             document.body.appendChild(container);
             addHistory(location);
 
@@ -108,7 +111,7 @@ function createWeatherDisplay(location) {
   function futureForecast(weatherData) {
       let lat = weatherData.coord.lat;
       let lon = weatherData.coord.lon;
-      let units = "metric";
+      let units = "imperial";
 
       getFutureWeather({ lat, lon, units })
       .then((forecastResponse) => forecastResponse.json())
@@ -118,8 +121,8 @@ function createWeatherDisplay(location) {
         forecastEl.classList.add("futureWeatherStatement");
         
         for (let i = 0; i < 5; i++) {
-          let forecast = forecastData.list[i * 8]; //8 forecast points per day
-          let forecastDate = new Date(forecast.dt * 1000); //convert Unix timestamp to date
+          let forecast = forecastData.list[i * 8]; 
+          let forecastDate = new Date(forecast.dt * 1000);
           let forecastDay = forecastDate.toLocaleDateString("en-US", {
             weekday: "short",
           });
@@ -127,10 +130,11 @@ function createWeatherDisplay(location) {
           let forecastIcon = forecast.weather[0].icon;
   
           let forecastDayEl = document.createElement("p");
-          forecastDayEl.textContent = `${forecastDay}: ${forecastTemp}°C`;
+          forecastDayEl.textContent = `${forecastDay}: ${forecastTemp}°F`;
   
           let forecastIconEl = document.createElement("img");
           forecastIconEl.src = `https://openweathermap.org/img/wn/${forecastIcon}.png`;
+          
   
           forecastEl.appendChild(forecastDayEl);
           forecastEl.appendChild(forecastIconEl);

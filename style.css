@@ -17,6 +17,10 @@
     
  }
 
+ .futureWeatherStatement {
+    background-color: lightblue;;
+ }
+
 input {
     width: 20%;
     margin: 10px;
@@ -62,6 +66,7 @@ div {
     padding: 20px;
     margin: 15px;
     width: fit-content;
+    flex-direction: inherit;
 
 }
 
