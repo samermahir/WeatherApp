@@ -1,13 +1,21 @@
 let future = "";
 let input = document.querySelector("#input");
 
+let clearBtn = document.createElement("clearBtn");
+clearBtn.textContent = "Clear Search";
+document.body.appendChild(clearBtn);
+clearBtn.addEventListener("click", function() {
+  localStorage.removeItem("history");
+  location.reload();
+},
+
 input.addEventListener("keyup", function (event) {
   console.log(event.target.value);
   if (event.key === "Enter") {
     createWeatherDisplay(event.target.value);
     console.log(event.key);
   }
-});
+}));
 
 let previousSearchHistory = localStorage.getItem("history");
 if (previousSearchHistory) {
@@ -103,7 +111,7 @@ function createWeatherDisplay(location) {
 
             let humidityEl = document.createElement("p");
             humidityEl.textContent = `Humidity: ${weatherData.main.humidity}%`;
-            
+
             container.appendChild(weatherPic);
             container.appendChild(currentWeatherStatement);
             container.appendChild(windEl);
