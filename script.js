@@ -91,15 +91,23 @@ function createWeatherDisplay(location) {
             let weatherPic = document.createElement("img");
 
             weatherPic.src = `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;
+
             let currentWeatherStatement = document.createElement("p");
+
             let container = document.createElement("div");
             container.classList.add("currentweatherstatement");
             currentWeatherStatement.textContent = `${weatherData.weather[0].main}: currently ${weatherData.weather[0].description}`;
+
             let windEl = document.createElement("p");
             windEl.textContent = `Wind: ${weatherData.wind.speed} mph`;
+
+            let humidityEl = document.createElement("p");
+            humidityEl.textContent = `Humidity: ${weatherData.main.humidity}%`;
+            
             container.appendChild(weatherPic);
             container.appendChild(currentWeatherStatement);
             container.appendChild(windEl);
+            container.appendChild(humidityEl);
             document.body.appendChild(container);
             addHistory(location);
 
