@@ -19,6 +19,7 @@
 
  .futureWeatherStatement {
     background-color: lightblue;;
+    display: flex;
  }
 
 input {
